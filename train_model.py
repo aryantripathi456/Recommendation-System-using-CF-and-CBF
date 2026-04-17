@@ -78,7 +78,8 @@ new_df['tags'] = new_df['tags'].apply(lambda x:x.lower())
 # Vectorize tags
 print("Vectorizing text data...")
 cv = TfidfVectorizer(max_features=5000, stop_words='english')
-vector = cv.fit_transform(new_df['tags']).toarray()
+# Convert to float32 to significantly reduce file size (under GitHub's 100MB limit)
+vector = cv.fit_transform(new_df['tags']).astype(np.float32).toarray()
 
 # Save for Content-Based
 with open('data/movies_metadata.pkl', 'wb') as f:
@@ -86,7 +87,7 @@ with open('data/movies_metadata.pkl', 'wb') as f:
 with open('data/vector.pkl', 'wb') as f:
     pickle.dump(vector, f)
 
-# --- Collaborative Filtering Features ---
+# Collaborative Filtering Features 
 print("Processing collaborative filtering features...")
 links = links.dropna(subset=['tmdbId'])
 links['tmdbId'] = links['tmdbId'].astype(int)
