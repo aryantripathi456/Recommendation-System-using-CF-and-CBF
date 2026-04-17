@@ -1,3 +1,4 @@
+import download_data
 import streamlit as st
 import pickle
 import pandas as pd
@@ -6,6 +7,9 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 from dotenv import load_dotenv
+import download_data
+download_data.download_tmdb()
+download_data.download_movielens()
 
 # Load environment variables
 load_dotenv()
